@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>For My Love ❤️</title>
 
 <style>
 body {
     margin:0;
     padding:0;
-    height:100vh;
-    overflow:hidden;
+    min-height:100vh;
+    overflow-x:hidden;
     font-family: Arial, sans-serif;
     background: linear-gradient(45deg, #7a0019, #b3002d);
     display:flex;
@@ -19,61 +19,60 @@ body {
     color:white;
 }
 
-/* Layout */
 .wrapper{
     display:flex;
+    flex-direction: column; /* Mobile par upar niche dikhega */
     align-items:center;
-    gap:20px;
+    gap:10px;
+    padding: 10px;
+    width: 100%;
 }
 
-/* Photo column */
 .photos{
     display:flex;
-    flex-direction:column;
-    gap:15px;
+    flex-direction:row; /* Photos side by side */
+    gap:10px;
+    justify-content: center;
 }
 
 .photos img{
-    width:120px;
-    height:160px;
+    width:80px; /* Choti size taaki zoom out lage */
+    height:110px;
     object-fit:cover;
-    border-radius:15px;
-    border:3px solid white;
+    border-radius:10px;
+    border:2px solid white;
 }
 
-/* Center box */
 .container{
-    background: rgba(0,0,0,0.35);
-    padding:30px;
+    background: rgba(0,0,0,0.4);
+    padding:20px;
     border-radius:20px;
-    max-width:400px;
+    width: 90%;
+    max-width:320px;
 }
+
+h1 { font-size: 1.5rem; margin-bottom: 10px; }
+p { font-size: 0.9rem; line-height: 1.4; }
 
 button{
-    padding:15px 30px;
-    font-size:18px;
+    padding:12px 25px;
+    font-size:16px;
     border:none;
     border-radius:30px;
-    margin:15px;
+    margin:10px;
     cursor:pointer;
+    transition: 0.3s;
 }
 
-.yes{
-    background:#ff4d6d;
-    color:white;
-}
-
-.no{
-    background:white;
-    color:#b3002d;
-    position:absolute;
-}
+.yes{ background:#ff4d6d; color:white; }
+.no{ background:white; color:#b3002d; position:absolute; }
 
 .heart{
     position:absolute;
     color:#ff4d6d;
     font-size:20px;
     animation:float 6s linear infinite;
+    z-index: 999;
 }
 
 @keyframes float{
@@ -82,56 +81,59 @@ button{
 }
 
 .typing{
-    font-size:2em;
+    font-size:1.2rem;
     font-weight:bold;
-    border-right:2px solid white;
-    white-space:nowrap;
-    overflow:hidden;
+    padding: 20px;
 }
 
-#ytPlayer{
-    position:absolute;
-    width:0;
-    height:0;
-    border:0;
-}
+#ytPlayer { display:none; }
 </style>
 </head>
 
 <body>
 
-<iframe id="ytPlayer"
-src="https://www.youtube.com/embed/7GrneQrzB6U?enablejsapi=1&autoplay=0&loop=1&playlist=7GrneQrzB6U">
-</iframe>
+<div id="player"></div>
 
-<div class="wrapper">
+<div class="wrapper" id="mainContent">
+    <div class="photos">
+        <img src="photo1.jpg">
+        <img src="photo2.jpg">
+    </div>
 
-<div class="photos">
-<img src="photo1.jpg">
-<img src="photo2.jpg">
-</div>
+    <div class="container">
+        <h1>TENYAAAA 🫀💍💋🎀🧿✨</h1>
+        <p>
+            Will you be my Valentine?<br><br>
+            Will u be mine forever babe? I love u so muchhhh that I can’t describe it in words 🥺🫀.<br>
+            Will u stay with me in every phase of life 🥺?
+        </p>
+        <button class="yes" onclick="showLove()">Yes 💖</button>
+        <button class="no" id="noBtn" onmouseover="moveNo()" onclick="moveNo()">No 😢</button>
+    </div>
 
-<div class="container">
-<h1>TENYAAAA 🫀💍💋🎀🧿✨</h1>
-
-<p>
-Will you be my Valentine?<br><br>
-Will u be mine forever babe? I love u so muchhhh that I can’t describe it in words 🥺🫀.<br>
-Will u stay with me in every phase of life 🥺?
-</p>
-
-<button class="yes" onclick="showLove()">Yes 💖</button>
-<button class="no" id="noBtn" onmouseover="moveNo()">No 😢</button>
-</div>
-
-<div class="photos">
-<img src="photo3.jpg">
-<img src="photo4.jpg">
-</div>
-
+    <div class="photos">
+        <img src="photo3.jpg">
+        <img src="photo4.jpg">
+    </div>
 </div>
 
 <script>
+// YouTube API load karne ke liye
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+var player;
+function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+        height: '0',
+        width: '0',
+        videoId: '7GrneQrzB6U',
+        playerVars: { 'autoplay': 0, 'loop': 1, 'playlist': '7GrneQrzB6U' }
+    });
+}
+
 function moveNo(){
     var btn=document.getElementById("noBtn");
     var x=Math.random()*(window.innerWidth-100);
@@ -152,14 +154,12 @@ function createHeart(){
 setInterval(createHeart,500);
 
 function showLove(){
-    var iframe = document.getElementById("ytPlayer");
-    iframe.src = iframe.src.replace("autoplay=0", "autoplay=1");
+    // Gana play karein
+    if(player) { player.playVideo(); }
 
-    document.body.innerHTML = "";
-
+    document.getElementById("mainContent").innerHTML = "";
     var text="You just made me the happiest person alive ❤️🥺";
     var i=0;
-
     var h=document.createElement("h1");
     h.classList.add("typing");
     document.body.appendChild(h);
@@ -172,10 +172,7 @@ function showLove(){
         }
     }
     typeWriter();
-
-    setInterval(createHeart,400);
 }
 </script>
-
 </body>
 </html>
