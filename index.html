@@ -4,24 +4,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>For My Love ❤️</title>
 <style>
-    body { margin:0; padding:0; min-height:100vh; overflow-x:hidden; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(45deg, #7a0019, #b3002d); display:flex; justify-content:center; align-items:center; text-align:center; color:white; }
+    body { margin:0; padding:0; min-height:100vh; overflow-x:hidden; font-family: 'Segoe UI', sans-serif; background: linear-gradient(45deg, #7a0019, #b3002d); display:flex; justify-content:center; align-items:center; text-align:center; color:white; }
     .wrapper{ display:flex; flex-direction: column; align-items:center; gap:10px; padding: 10px; width: 100%; transition: opacity 0.5s; }
     .photos{ display:flex; flex-direction:row; gap:10px; justify-content: center; }
     .photos img{ width:85px; height:115px; object-fit:cover; border-radius:12px; border:2px solid rgba(255,255,255,0.8); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-    .container{ background: rgba(0,0,0,0.45); padding:25px; border-radius:25px; width: 85%; max-width:320px; z-index: 10; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.1); }
-    h1 { font-size: 1.4rem; margin-bottom: 12px; letter-spacing: 1px; }
-    p { font-size: 0.95rem; line-height: 1.5; margin-bottom: 20px; }
-    button{ padding:12px 28px; font-size:16px; border:none; border-radius:30px; cursor:pointer; font-weight: bold; transition: transform 0.2s; }
-    button:active { transform: scale(0.95); }
-    .yes{ background:#ff4d6d; color:white; box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4); }
+    .container{ background: rgba(0,0,0,0.45); padding:25px; border-radius:25px; width: 85%; max-width:320px; z-index: 10; backdrop-filter: blur(5px); }
+    button{ padding:12px 28px; font-size:16px; border:none; border-radius:30px; cursor:pointer; font-weight: bold; }
+    .yes{ background:#ff4d6d; color:white; }
     .no{ background:white; color:#b3002d; position:absolute; z-index: 20; }
     .heart{ position:absolute; color:#ff4d6d; font-size:20px; animation:float 6s linear infinite; z-index: 1; pointer-events: none; }
-    @keyframes float{ 0%{transform:translateY(100vh) rotate(0deg); opacity:1;} 100%{transform:translateY(-10vh) rotate(360deg); opacity:0;} }
-    .success-msg { font-size: 1.8rem; padding: 20px; line-height: 1.4; animation: fadeIn 1s; }
-    @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+    @keyframes float{ 0%{transform:translateY(100vh); opacity:1;} 100%{transform:translateY(-10vh); opacity:0;} }
 </style>
 </head>
-<body>
+<body onclick="playMusic()">
 
 <audio id="romanticSong" loop>
   <source src="https://files.catbox.moe/978msh.mp3" type="audio/mpeg">
@@ -32,18 +27,12 @@
         <img src="photo1.jpg">
         <img src="photo2.jpg">
     </div>
-    
     <div class="container">
         <h1>TENYAAAA 🫀💍💋</h1>
-        <p>
-            Will you be my Valentine?<br><br>
-            Will u be mine forever babe? I love u so muchhhh that I can’t describe it...<br>
-            Will u stay with me in every phase of life? 🥺
-        </p>
+        <p>Will you be my Valentine?<br><br>I love u so muchhhh...<br>Will u stay with me forever? 🥺</p>
         <button class="yes" onclick="showLove()">Yes 💖</button>
         <button class="no" id="noBtn" onmouseover="moveNo()" onclick="moveNo()">No 😢</button>
     </div>
-
     <div class="photos">
         <img src="photo3.jpg">
         <img src="photo4.jpg">
@@ -51,46 +40,34 @@
 </div>
 
 <script>
+    var audio = document.getElementById("romanticSong");
+    var started = false;
+
+    function playMusic() {
+        if(!started) {
+            audio.play().then(() => { audio.pause(); started = true; });
+        }
+    }
+
     function moveNo(){
         var btn=document.getElementById("noBtn");
-        // Screen limits to keep button visible
-        var x = Math.random() * (window.innerWidth - btn.offsetWidth);
-        var y = Math.random() * (window.innerHeight - btn.offsetHeight);
-        btn.style.left = x + "px";
-        btn.style.top = y + "px";
+        btn.style.left = Math.random() * (window.innerWidth - 100) + "px";
+        btn.style.top = Math.random() * (window.innerHeight - 100) + "px";
     }
 
     function showLove(){
-        // Music Play logic
-        var audio = document.getElementById("romanticSong");
-        audio.play().catch(e => console.log("Playback failed"));
-
-        // UI Change
-        var main = document.getElementById("mainContent");
-        main.style.opacity = "0";
-        
-        setTimeout(() => {
-            main.innerHTML = "<h1 class='success-msg'>You just made me the happiest person alive ❤️🥹<br><br>🧿✨💍</h1>";
-            main.style.opacity = "1";
-        }, 500);
-
-        // Extra hearts
+        audio.play();
+        document.getElementById("mainContent").innerHTML = "<h1 style='padding:20px;'>You just made me the happiest person alive ❤️🥹<br><br>🧿✨💍</h1>";
         setInterval(createHeart, 300);
     }
 
     function createHeart(){
         var heart = document.createElement("div");
-        heart.classList.add("heart");
-        heart.innerHTML = "❤️";
+        heart.classList.add("heart"); heart.innerHTML = "❤️";
         heart.style.left = Math.random() * 100 + "vw";
-        heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
-        heart.style.fontSize = (Math.random() * 20 + 15) + "px";
         document.body.appendChild(heart);
         setTimeout(() => { heart.remove(); }, 6000);
     }
-    
-    // Background hearts
-    setInterval(createHeart, 700);
 </script>
 </body>
 </html>
