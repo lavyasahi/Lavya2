@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Love ❤️</title>
+
+<style>
+body {
+    margin:0;
+    padding:0;
+    height:100vh;
+    overflow:hidden;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(45deg, #7a0019, #b3002d);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    color:white;
+}
+
+/* Layout */
+.wrapper{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+/* Photo column */
+.photos{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.photos img{
+    width:120px;
+    height:160px;
+    object-fit:cover;
+    border-radius:15px;
+    border:3px solid white;
+}
+
+/* Center box */
+.container{
+    background: rgba(0,0,0,0.35);
+    padding:30px;
+    border-radius:20px;
+    max-width:400px;
+}
+
+button{
+    padding:15px 30px;
+    font-size:18px;
+    border:none;
+    border-radius:30px;
+    margin:15px;
+    cursor:pointer;
+}
+
+.yes{
+    background:#ff4d6d;
+    color:white;
+}
+
+.no{
+    background:white;
+    color:#b3002d;
+    position:absolute;
+}
+
+.heart{
+    position:absolute;
+    color:#ff4d6d;
+    font-size:20px;
+    animation:float 6s linear infinite;
+}
+
+@keyframes float{
+    0%{transform:translateY(100vh); opacity:1;}
+    100%{transform:translateY(-10vh); opacity:0;}
+}
+
+.typing{
+    font-size:2em;
+    font-weight:bold;
+    border-right:2px solid white;
+    white-space:nowrap;
+    overflow:hidden;
+}
+
+#ytPlayer{
+    position:absolute;
+    width:0;
+    height:0;
+    border:0;
+}
+</style>
+</head>
+
+<body>
+
+<iframe id="ytPlayer"
+src="https://www.youtube.com/embed/7GrneQrzB6U?enablejsapi=1&autoplay=0&loop=1&playlist=7GrneQrzB6U">
+</iframe>
+
+<div class="wrapper">
+
+<div class="photos">
+<img src="photo1.jpg">
+<img src="photo2.jpg">
+</div>
+
+<div class="container">
+<h1>TENYAAAA 🫀💍💋🎀🧿✨</h1>
+
+<p>
+Will you be my Valentine?<br><br>
+Will u be mine forever babe? I love u so muchhhh that I can’t describe it in words 🥺🫀.<br>
+Will u stay with me in every phase of life 🥺?
+</p>
+
+<button class="yes" onclick="showLove()">Yes 💖</button>
+<button class="no" id="noBtn" onmouseover="moveNo()">No 😢</button>
+</div>
+
+<div class="photos">
+<img src="photo3.jpg">
+<img src="photo4.jpg">
+</div>
+
+</div>
+
+<script>
+function moveNo(){
+    var btn=document.getElementById("noBtn");
+    var x=Math.random()*(window.innerWidth-100);
+    var y=Math.random()*(window.innerHeight-50);
+    btn.style.left=x+"px";
+    btn.style.top=y+"px";
+}
+
+function createHeart(){
+    var heart=document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML="❤️";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.animationDuration=(Math.random()*3+3)+"s";
+    document.body.appendChild(heart);
+    setTimeout(()=>{heart.remove();},6000);
+}
+setInterval(createHeart,500);
+
+function showLove(){
+    var iframe = document.getElementById("ytPlayer");
+    iframe.src = iframe.src.replace("autoplay=0", "autoplay=1");
+
+    document.body.innerHTML = "";
+
+    var text="You just made me the happiest person alive ❤️🥺";
+    var i=0;
+
+    var h=document.createElement("h1");
+    h.classList.add("typing");
+    document.body.appendChild(h);
+
+    function typeWriter(){
+        if(i<text.length){
+            h.innerHTML+=text.charAt(i);
+            i++;
+            setTimeout(typeWriter,60);
+        }
+    }
+    typeWriter();
+
+    setInterval(createHeart,400);
+}
+</script>
+
+</body>
+</html>
