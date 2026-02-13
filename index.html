@@ -3,109 +3,42 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>For My Love ❤️</title>
-
 <style>
-body {
-    margin:0;
-    padding:0;
-    min-height:100vh;
-    overflow-x:hidden;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(45deg, #7a0019, #b3002d);
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    text-align:center;
-    color:white;
-}
-
-.wrapper{
-    display:flex;
-    flex-direction: column; /* Mobile par upar niche dikhega */
-    align-items:center;
-    gap:10px;
-    padding: 10px;
-    width: 100%;
-}
-
-.photos{
-    display:flex;
-    flex-direction:row; /* Photos side by side */
-    gap:10px;
-    justify-content: center;
-}
-
-.photos img{
-    width:80px; /* Choti size taaki zoom out lage */
-    height:110px;
-    object-fit:cover;
-    border-radius:10px;
-    border:2px solid white;
-}
-
-.container{
-    background: rgba(0,0,0,0.4);
-    padding:20px;
-    border-radius:20px;
-    width: 90%;
-    max-width:320px;
-}
-
-h1 { font-size: 1.5rem; margin-bottom: 10px; }
-p { font-size: 0.9rem; line-height: 1.4; }
-
-button{
-    padding:12px 25px;
-    font-size:16px;
-    border:none;
-    border-radius:30px;
-    margin:10px;
-    cursor:pointer;
-    transition: 0.3s;
-}
-
-.yes{ background:#ff4d6d; color:white; }
-.no{ background:white; color:#b3002d; position:absolute; }
-
-.heart{
-    position:absolute;
-    color:#ff4d6d;
-    font-size:20px;
-    animation:float 6s linear infinite;
-    z-index: 999;
-}
-
-@keyframes float{
-    0%{transform:translateY(100vh); opacity:1;}
-    100%{transform:translateY(-10vh); opacity:0;}
-}
-
-.typing{
-    font-size:1.2rem;
-    font-weight:bold;
-    padding: 20px;
-}
-
-#ytPlayer { display:none; }
+    body { margin:0; padding:0; min-height:100vh; overflow-x:hidden; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(45deg, #7a0019, #b3002d); display:flex; justify-content:center; align-items:center; text-align:center; color:white; }
+    .wrapper{ display:flex; flex-direction: column; align-items:center; gap:10px; padding: 10px; width: 100%; transition: opacity 0.5s; }
+    .photos{ display:flex; flex-direction:row; gap:10px; justify-content: center; }
+    .photos img{ width:85px; height:115px; object-fit:cover; border-radius:12px; border:2px solid rgba(255,255,255,0.8); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+    .container{ background: rgba(0,0,0,0.45); padding:25px; border-radius:25px; width: 85%; max-width:320px; z-index: 10; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.1); }
+    h1 { font-size: 1.4rem; margin-bottom: 12px; letter-spacing: 1px; }
+    p { font-size: 0.95rem; line-height: 1.5; margin-bottom: 20px; }
+    button{ padding:12px 28px; font-size:16px; border:none; border-radius:30px; cursor:pointer; font-weight: bold; transition: transform 0.2s; }
+    button:active { transform: scale(0.95); }
+    .yes{ background:#ff4d6d; color:white; box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4); }
+    .no{ background:white; color:#b3002d; position:absolute; z-index: 20; }
+    .heart{ position:absolute; color:#ff4d6d; font-size:20px; animation:float 6s linear infinite; z-index: 1; pointer-events: none; }
+    @keyframes float{ 0%{transform:translateY(100vh) rotate(0deg); opacity:1;} 100%{transform:translateY(-10vh) rotate(360deg); opacity:0;} }
+    .success-msg { font-size: 1.8rem; padding: 20px; line-height: 1.4; animation: fadeIn 1s; }
+    @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
 </style>
 </head>
-
 <body>
 
-<div id="player"></div>
+<audio id="romanticSong" loop>
+  <source src="https://files.catbox.moe/978msh.mp3" type="audio/mpeg">
+</audio>
 
 <div class="wrapper" id="mainContent">
     <div class="photos">
         <img src="photo1.jpg">
         <img src="photo2.jpg">
     </div>
-
+    
     <div class="container">
-        <h1>TENYAAAA 🫀💍💋🎀🧿✨</h1>
+        <h1>TENYAAAA 🫀💍💋</h1>
         <p>
             Will you be my Valentine?<br><br>
-            Will u be mine forever babe? I love u so muchhhh that I can’t describe it in words 🥺🫀.<br>
-            Will u stay with me in every phase of life 🥺?
+            Will u be mine forever babe? I love u so muchhhh that I can’t describe it...<br>
+            Will u stay with me in every phase of life? 🥺
         </p>
         <button class="yes" onclick="showLove()">Yes 💖</button>
         <button class="no" id="noBtn" onmouseover="moveNo()" onclick="moveNo()">No 😢</button>
@@ -118,61 +51,46 @@ button{
 </div>
 
 <script>
-// YouTube API load karne ke liye
-var tag = document.createElement('script');
-tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-var player;
-function onYouTubeIframeAPIReady() {
-    player = new YT.Player('player', {
-        height: '0',
-        width: '0',
-        videoId: '7GrneQrzB6U',
-        playerVars: { 'autoplay': 0, 'loop': 1, 'playlist': '7GrneQrzB6U' }
-    });
-}
-
-function moveNo(){
-    var btn=document.getElementById("noBtn");
-    var x=Math.random()*(window.innerWidth-100);
-    var y=Math.random()*(window.innerHeight-50);
-    btn.style.left=x+"px";
-    btn.style.top=y+"px";
-}
-
-function createHeart(){
-    var heart=document.createElement("div");
-    heart.classList.add("heart");
-    heart.innerHTML="❤️";
-    heart.style.left=Math.random()*100+"vw";
-    heart.style.animationDuration=(Math.random()*3+3)+"s";
-    document.body.appendChild(heart);
-    setTimeout(()=>{heart.remove();},6000);
-}
-setInterval(createHeart,500);
-
-function showLove(){
-    // Gana play karein
-    if(player) { player.playVideo(); }
-
-    document.getElementById("mainContent").innerHTML = "";
-    var text="You just made me the happiest person alive ❤️🥺";
-    var i=0;
-    var h=document.createElement("h1");
-    h.classList.add("typing");
-    document.body.appendChild(h);
-
-    function typeWriter(){
-        if(i<text.length){
-            h.innerHTML+=text.charAt(i);
-            i++;
-            setTimeout(typeWriter,60);
-        }
+    function moveNo(){
+        var btn=document.getElementById("noBtn");
+        // Screen limits to keep button visible
+        var x = Math.random() * (window.innerWidth - btn.offsetWidth);
+        var y = Math.random() * (window.innerHeight - btn.offsetHeight);
+        btn.style.left = x + "px";
+        btn.style.top = y + "px";
     }
-    typeWriter();
-}
+
+    function showLove(){
+        // Music Play logic
+        var audio = document.getElementById("romanticSong");
+        audio.play().catch(e => console.log("Playback failed"));
+
+        // UI Change
+        var main = document.getElementById("mainContent");
+        main.style.opacity = "0";
+        
+        setTimeout(() => {
+            main.innerHTML = "<h1 class='success-msg'>You just made me the happiest person alive ❤️🥹<br><br>🧿✨💍</h1>";
+            main.style.opacity = "1";
+        }, 500);
+
+        // Extra hearts
+        setInterval(createHeart, 300);
+    }
+
+    function createHeart(){
+        var heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = "❤️";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+        heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+        document.body.appendChild(heart);
+        setTimeout(() => { heart.remove(); }, 6000);
+    }
+    
+    // Background hearts
+    setInterval(createHeart, 700);
 </script>
 </body>
 </html>
